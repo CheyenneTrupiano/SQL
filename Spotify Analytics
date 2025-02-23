@@ -1,0 +1,75 @@
+# For this project, I downloaded Spotify data from Kaggle.
+# Then I created a table to insert Spotify data into.
+# Finally, I performed analytics on the data using SQL. 
+
+#Creating the table: 
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL 
+)
+
+#Then I inserted the Spotify Data .csv into the table.
+
+
+#Next, I explored the data using the following SQL. 
+
+
+-- What is the average tempo of songs by artist?
+
+SELECT artist_name, avg(tempo)
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name;
+
+-- Which song has the highest energy?
+
+SELECT artist_name, track_name, MAX(energy) AS max_energy
+FROM BIT_DB.Spotifydata
+
+-- What is the average energy and danceability across all songs?
+
+SELECT avg(danceability) avg_dance, avg(energy) as avg_energy
+FROM Spotifydata;
+
+
+-- Which song key has the highest average danceability and what is its
+--average tempo?
+
+SELECT song_key, avg(danceability) AS avg_dance, avg(tempo) AS avg_tempo
+FROM Spotifydata
+GROUP by song_key
+ORDER BY avg_dance DESC LIMIT 1;
+
+-- What is the average tempo for songs with a danceabililty above 0.7?
+
+SELECT avg(tempo)
+FROM Spotifydata
+WHERE danceability >= 0.7
+
+-- What is the song with the longest duration?
+
+SELECT track_name, duration_ms
+FROM Spotifydata
+ORDER BY duration_ms DESC Limit 1;
+
+--Which artist has the highest average popularity?
+
+SELECT artist_name, avg(popularity) AS avg_popularity
+FROM Spotifydata
+GROUP BY artist_name
+ORDER BY avg_popularity DESC limit 1
